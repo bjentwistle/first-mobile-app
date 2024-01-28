@@ -1,23 +1,28 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, Image, SafeAreaView } from "react-native";
 
 export default function App() {
-  let x = 1;
-  console.log("App executed");
+  const handleOnPress1 = () => console.log("First line pressed");
+  const handleOnPress2 = () => console.log("Second line pressed");
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>This is my first mobile app</Text>
-      <Text style={styles.text}>Hello World from Becky!</Text>
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.text} onPress={handleOnPress1}>
+        This is my first mobile app
+      </Text>
+      <Text style={styles.text} onPress={handleOnPress2}>
+        Hello World from Becky!
+      </Text>
+      <Image style={styles.logo} source={require("./assets/favicon.png")} />
       <StatusBar style="auto" />
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#61dafb",
+    backgroundColor: "dodgerBlue",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -32,5 +37,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 25,
     fontWeight: "bold",
+  },
+  logo: {
+    width: 66,
+    height: 66,
   },
 });
