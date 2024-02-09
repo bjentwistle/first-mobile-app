@@ -1,10 +1,14 @@
 import { StatusBar } from "expo-status-bar";
+import { useEffect } from "react";
+import MapView from "react-native-maps"; // Import the MapView component from the ArcGIS Runtime SDK for React Native
+
 import {
   StyleSheet,
   Text,
   Image,
   View,
   SafeAreaView,
+  Platform,
   TouchableWithoutFeedback,
   TouchableOpacity,
   TouchableHighlight,
@@ -12,43 +16,51 @@ import {
   Alert,
 } from "react-native";
 
+import { useDeviceOrientation } from "@react-native-community/hooks";
+
 const Separator = () => <View style={styles.separator} />;
 
 export default function App() {
-  const handleOnPress1 = () => console.log("First line pressed");
-  const handleOnPress2 = () => console.log("Second line pressed");
+  const orientation = useDeviceOrientation();
+  console.log("orientation is:", orientation);
+  // const handleOnPress1 = () => console.log("First line pressed");
+  // const handleOnPress2 = () => console.log("Second line pressed");
+
+  useEffect(() => {
+    // Set API key (Note: replace 'API_KEY' with your actual API key)
+    const apiKey = process.env.API_KEY;
+    process.env.ESRI_ACCESS_TOKEN = apiKey;
+
+    // Your map configuration
+    const mapConfig = {
+      basemap: "topo-vector", // Basemap layer
+      center: [-118.805, 34.027],
+      zoom: 13, // Zoom level
+    };
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        <TouchableHighlight onPress={() => console.log("Image pressed")}>
-          <Image
-            style={styles.image}
-            source={{
-              uri: "https://picsum.photos/200",
-            }}
-          />
-        </TouchableHighlight>
+      <View style={styles.container}>
+        <MapView
+          style={styles.map}
+          mapType="topo-vector" // Basemap type centered on Edinburgh
+          initialRegion={{
+            latitude: 55.953251,
+            longitude: -3.188267,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        />
       </View>
       <Separator />
+
       <View>
-        <Text style={styles.text} onPress={handleOnPress1}>
-          This is my first mobile app
+        <Text style={styles.text}>
+          ArcGIS Maps SDK for JavaScript Tutorials: Display a map
         </Text>
-        <Text style={styles.text} onPress={handleOnPress2}>
-          Hello World from Becky!
-        </Text>
       </View>
-      <Separator />
-      <View>
-        <Image style={styles.logo} source={require("./assets/favicon.png")} />
-      </View>
-      <Separator />
-      <Button
-        title="Click Me"
-        accessibilityLabel="Click me"
-        onPress={() => Alert.alert("Button clicked")}
-      />
+
       <StatusBar style="auto" />
     </SafeAreaView>
   );
@@ -60,6 +72,12 @@ const styles = StyleSheet.create({
     backgroundColor: "lightblue",
     // alignItems: "center",
     justifyContent: "center",
+  },
+  map: {
+    padding: 0,
+    margin: 0,
+    height: "100%",
+    width: "100%",
   },
   image: {
     width: 200,
