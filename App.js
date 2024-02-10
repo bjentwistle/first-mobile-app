@@ -23,8 +23,12 @@ const Separator = () => <View style={styles.separator} />;
 export default function App() {
   const orientation = useDeviceOrientation();
   console.log("orientation is:", orientation);
-  // const handleOnPress1 = () => console.log("First line pressed");
-  // const handleOnPress2 = () => console.log("Second line pressed");
+
+  //supposedly the lat and long but seems wrong!
+  const handlePress = (event) => {
+    const { locationX, locationY } = event.nativeEvent;
+    console.log("The long and lat", locationX, locationY);
+  };
 
   useEffect(() => {
     // Set API key (Note: replace 'API_KEY' with your actual API key)
@@ -42,24 +46,26 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
-        <MapView
-          style={styles.map}
-          mapType="topo-vector" // Basemap type centered on Edinburgh
-          initialRegion={{
-            latitude: 55.953251,
-            longitude: -3.188267,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
-        />
+        <TouchableOpacity onPress={handlePress} style={styles.touchable}>
+          <MapView
+            style={styles.map}
+            mapType="topo-vector" // Basemap type centered on Edinburgh
+            initialRegion={{
+              latitude: 55.953251,
+              longitude: -3.188267,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }}
+          />
+        </TouchableOpacity>
       </View>
       <Separator />
 
-      <View>
+      {/* <View>
         <Text style={styles.text}>
           ArcGIS Maps SDK for JavaScript Tutorials: Display a map
         </Text>
-      </View>
+      </View> */}
 
       <StatusBar style="auto" />
     </SafeAreaView>
