@@ -13,6 +13,6 @@ If you have followed the initial tutorial from Mosh on Youtube you should only n
 
 You should get this view on your mobile if using Expo app
 
-![](https://github.com/bjentwistle/first-mobile-app/blob/main/assets/screenshot.png)
+![alt text](https://github.com/bjentwistle/first-mobile-app/blob/main/assets/screenshot.png "screenshot of mobile showing map of Edinburgh")
 
 
