@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
-import MapView from "react-native-maps"; // Import the MapView component from the ArcGIS Runtime SDK for React Native
+import MapView, { EsriBasemaps } from "react-native-maps"; // Import the MapView component from the ArcGIS Runtime SDK for React Native
 
 import {
   StyleSheet,
@@ -14,6 +14,7 @@ import {
   TouchableHighlight,
   Button,
   Alert,
+  TouchableNativeFeedback,
 } from "react-native";
 
 import { useDeviceOrientation } from "@react-native-community/hooks";
@@ -46,10 +47,11 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
-        <TouchableOpacity onPress={handlePress} style={styles.touchable}>
+        <TouchableHighlight onPress={handlePress} style={styles.touchable}>
           <MapView
             style={styles.map}
-            mapType="topo-vector" // Basemap type centered on Edinburgh
+            // mapType="satellite" // Basemap type centered on Edinburgh
+            mapType={EsriBasemaps.World_Shaded_Relief}
             initialRegion={{
               latitude: 55.953251,
               longitude: -3.188267,
@@ -57,15 +59,13 @@ export default function App() {
               longitudeDelta: 0.0421,
             }}
           />
-        </TouchableOpacity>
+        </TouchableHighlight>
       </View>
       <Separator />
 
-      {/* <View>
-        <Text style={styles.text}>
-          ArcGIS Maps SDK for JavaScript Tutorials: Display a map
-        </Text>
-      </View> */}
+      <View>
+        <Text style={styles.text}>Satellite Display of a map</Text>
+      </View>
 
       <StatusBar style="auto" />
     </SafeAreaView>
