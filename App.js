@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
-import MapView, { EsriBasemaps } from "react-native-maps"; // Import the MapView component from the ArcGIS Runtime SDK for React Native
+import MapView from "react-native-maps"; // Import the MapView component from the ArcGIS Runtime SDK for React Native
 
 import {
   StyleSheet,
@@ -50,8 +50,7 @@ export default function App() {
         <TouchableHighlight onPress={handlePress} style={styles.touchable}>
           <MapView
             style={styles.map}
-            // mapType="satellite" // Basemap type centered on Edinburgh
-            mapType={EsriBasemaps.World_Shaded_Relief}
+            mapType="satellite" // Basemap type centered on Edinburgh
             initialRegion={{
               latitude: 55.953251,
               longitude: -3.188267,
