@@ -22,11 +22,12 @@ import {
 import { useDeviceOrientation } from "@react-native-community/hooks";
 
 const Separator = () => <View style={styles.separator} />;
-
+const globeImage = require("./assets/f.gif");
 function HomeScreen({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Button title="Go to maps" onPress={() => navigation.navigate("Map")} />
+      <Image style={styles.image} source={globeImage} />
+      <Button title="Play maps" onPress={() => navigation.navigate("Maps")} />
     </View>
   );
 }
@@ -35,22 +36,28 @@ const handlePress = (event) => {
   console.log("The long and lat", locationX, locationY);
 };
 
-function DetailsScreen() {
+function MapsScreen() {
   return (
-    <View>
-      <TouchableHighlight onPress={handlePress} style={styles.touchable}>
-        <MapView
-          style={styles.map}
-          mapType="satellite" // Basemap type centered on Edinburgh
-          initialRegion={{
-            latitude: 55.953251,
-            longitude: -3.188267,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
-        />
-      </TouchableHighlight>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <View>
+        <TouchableHighlight onPress={handlePress} style={styles.touchable}>
+          <MapView
+            style={styles.map}
+            mapType="satellite" // Basemap type centered on Edinburgh
+            initialRegion={{
+              latitude: 55.953251,
+              longitude: -3.188267,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }}
+          />
+        </TouchableHighlight>
+      </View>
+
+      <View>
+        <Text style={styles.text}>Zoom in and out to explore</Text>
+      </View>
+    </SafeAreaView>
   );
 }
 
@@ -87,7 +94,11 @@ export default function App() {
           component={HomeScreen}
           options={{ title: "Home" }}
         />
-        <Stack.Screen name="Map" component={DetailsScreen} />
+        <Stack.Screen
+          name="Maps"
+          component={MapsScreen}
+          options={{ title: "As The Crow Flies" }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -97,7 +108,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "lightblue",
-    // alignItems: "center",
     justifyContent: "center",
   },
   map: {
@@ -107,12 +117,12 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   image: {
-    width: 200,
-    height: 200,
+    width: 250,
+    height: 250,
     alignSelf: "center",
   },
   text: {
-    marginTop: 16,
+    // marginTop: 5,
     padding: 8,
     borderWidth: 4,
     borderColor: "#20232a",
@@ -122,11 +132,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 25,
     fontWeight: "bold",
-  },
-  logo: {
-    alignSelf: "center",
-    width: 66,
-    height: 66,
   },
   separator: {
     margin: 8,
