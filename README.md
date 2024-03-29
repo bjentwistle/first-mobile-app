@@ -12,7 +12,7 @@ If you have followed the initial tutorial from Mosh on Youtube you should only n
 
 You should get this view on your mobile if using Expo app
 
-![alt text](https://github.com/bjentwistle/first-mobile-app/blob/main/assets/screenshot.png "screenshot of mobile showing map of Edinburgh")
+![alt text](<img src = "https://github.com/bjentwistle/first-mobile-app/blob/main/assets/screenshot.png" width="80%" "screenshot of mobile showing map of Edinburgh"> )
 
 ### Adding navigation -
 
