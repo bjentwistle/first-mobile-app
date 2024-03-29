@@ -1,6 +1,8 @@
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import MapView from "react-native-maps"; // Import the MapView component from the ArcGIS Runtime SDK for React Native
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import {
   StyleSheet,
@@ -20,6 +22,56 @@ import {
 import { useDeviceOrientation } from "@react-native-community/hooks";
 
 const Separator = () => <View style={styles.separator} />;
+
+function HomeScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Text>Home Screen</Text>
+      <Button
+        title="Go to maps"
+        onPress={() => navigation.navigate("Details")}
+      />
+    </View>
+  );
+}
+
+function DetailsScreen() {
+  return (
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Text>Details Screen</Text>
+    </View>
+  );
+}
+
+// function MapsScreen() {
+//   return (
+//     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+//       <SafeAreaView style={styles.container}>
+//         <View style={styles.container}>
+//           <TouchableHighlight onPress={handlePress} style={styles.touchable}>
+//             <MapView
+//               style={styles.map}
+//               mapType="satellite" // Basemap type centered on Edinburgh
+//               initialRegion={{
+//                 latitude: 55.953251,
+//                 longitude: -3.188267,
+//                 latitudeDelta: 0.0922,
+//                 longitudeDelta: 0.0421,
+//               }}
+//             />
+//           </TouchableHighlight>
+//         </View>
+//         <Separator />
+
+//         <View>
+//           <Text style={styles.text}>Satellite Display of a map</Text>
+//         </View>
+
+//         <StatusBar style="auto" />
+//       </SafeAreaView>
+//     </View>
+//   );
+// }
 
 export default function App() {
   const orientation = useDeviceOrientation();
@@ -44,30 +96,19 @@ export default function App() {
     };
   }, []);
 
+  const Stack = createNativeStackNavigator();
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.container}>
-        <TouchableHighlight onPress={handlePress} style={styles.touchable}>
-          <MapView
-            style={styles.map}
-            mapType="satellite" // Basemap type centered on Edinburgh
-            initialRegion={{
-              latitude: 55.953251,
-              longitude: -3.188267,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
-            }}
-          />
-        </TouchableHighlight>
-      </View>
-      <Separator />
-
-      <View>
-        <Text style={styles.text}>Satellite Display of a map</Text>
-      </View>
-
-      <StatusBar style="auto" />
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ title: "As The Crow Flies" }}
+        />
+        <Stack.Screen name="Details" component={DetailsScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
