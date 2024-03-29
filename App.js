@@ -1,6 +1,8 @@
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import MapView from "react-native-maps"; // Import the MapView component from the ArcGIS Runtime SDK for React Native
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import {
   StyleSheet,
@@ -20,6 +22,44 @@ import {
 import { useDeviceOrientation } from "@react-native-community/hooks";
 
 const Separator = () => <View style={styles.separator} />;
+const globeImage = require("./assets/f.gif");
+function HomeScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Image style={styles.image} source={globeImage} />
+      <Button title="Play maps" onPress={() => navigation.navigate("Maps")} />
+    </View>
+  );
+}
+const handlePress = (event) => {
+  const { locationX, locationY } = event.nativeEvent;
+  console.log("The long and lat", locationX, locationY);
+};
+
+function MapsScreen() {
+  return (
+    <SafeAreaView style={styles.container}>
+      <View>
+        <TouchableHighlight onPress={handlePress} style={styles.touchable}>
+          <MapView
+            style={styles.map}
+            mapType="satellite" // Basemap type centered on Edinburgh
+            initialRegion={{
+              latitude: 55.953251,
+              longitude: -3.188267,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }}
+          />
+        </TouchableHighlight>
+      </View>
+
+      <View>
+        <Text style={styles.text}>Zoom in and out to explore</Text>
+      </View>
+    </SafeAreaView>
+  );
+}
 
 export default function App() {
   const orientation = useDeviceOrientation();
@@ -44,30 +84,23 @@ export default function App() {
     };
   }, []);
 
+  const Stack = createNativeStackNavigator();
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.container}>
-        <TouchableHighlight onPress={handlePress} style={styles.touchable}>
-          <MapView
-            style={styles.map}
-            mapType="satellite" // Basemap type centered on Edinburgh
-            initialRegion={{
-              latitude: 55.953251,
-              longitude: -3.188267,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
-            }}
-          />
-        </TouchableHighlight>
-      </View>
-      <Separator />
-
-      <View>
-        <Text style={styles.text}>Satellite Display of a map</Text>
-      </View>
-
-      <StatusBar style="auto" />
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ title: "Home" }}
+        />
+        <Stack.Screen
+          name="Maps"
+          component={MapsScreen}
+          options={{ title: "As The Crow Flies" }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
@@ -75,7 +108,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "lightblue",
-    // alignItems: "center",
     justifyContent: "center",
   },
   map: {
@@ -85,12 +117,12 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   image: {
-    width: 200,
-    height: 200,
+    width: 250,
+    height: 250,
     alignSelf: "center",
   },
   text: {
-    marginTop: 16,
+    // marginTop: 5,
     padding: 8,
     borderWidth: 4,
     borderColor: "#20232a",
@@ -100,11 +132,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 25,
     fontWeight: "bold",
-  },
-  logo: {
-    alignSelf: "center",
-    width: 66,
-    height: 66,
   },
   separator: {
     margin: 8,
